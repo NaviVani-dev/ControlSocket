@@ -5,7 +5,7 @@ a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[('app', 'app'), ('venv/lib/python3.13/site-packages/desktop_notifier/resources', 'desktop_notifier/resources')],
+    datas=[('app', 'app'), ("lib/ViGEmClient.dll", "vgamepad/win/vigem/client/x64")],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},

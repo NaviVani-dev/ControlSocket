@@ -10,6 +10,7 @@ from input import Gamepad
 from plyer import notification
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 async def socket_handler(websocket):
     try:
         print(f"{websocket.remote_address} connected.")
@@ -82,7 +83,7 @@ async def main(ip, port, socketport):
     app["socketport"] = socketport
     app["host_ip"] = host_ip
     app.add_routes([web.get("/", http_handler), web.get("/socket", miniapi_handler)])
-    app.router.add_static("/assets/", path="./app/assets", name="assets")
+    app.router.add_static("/assets/", path=os.path.join(BASE_DIR, "app", "assets"), name="assets")
     runner = web.AppRunner(app)
     await runner.setup()
     http_site = web.TCPSite(runner, ip, port)
