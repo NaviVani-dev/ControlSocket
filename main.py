@@ -4,16 +4,16 @@ import json
 import socket
 import argparse
 import qrcode
+import os
 from aiohttp import web
 from input import Gamepad
-from desktop_notifier import DesktopNotifier
+from plyer import notification
 
-notifier = DesktopNotifier(app_name="ControlSocket")
-
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 async def socket_handler(websocket):
     try:
         print(f"{websocket.remote_address} connected.")
-        await notifier.send(
+        notify(
             title="Controller connected",
             message=f"{websocket.remote_address[0]} has connected to the websocket.",
         )
@@ -46,9 +46,9 @@ async def socket_handler(websocket):
         print(f"ERROR: {e}")
     finally:
         print(f"{websocket.remote_address} disconnected.")
-        await notifier.send(
+        notify(
             title="Controller disconnected",
-            message=f"{websocket.remote_address} has disconnected from the websocket.",
+            message=f"{websocket.remote_address[0]} has disconnected from the websocket.",
         )
 
 async def http_handler(request):
@@ -63,6 +63,10 @@ def print_qr(url: str):
     qr.add_data(url)
     qr.make(fit=True)
     qr.print_ascii(invert=True)
+
+def notify(title, message):
+    icon_path = os.path.join(BASE_DIR, "icon.ico")
+    notification.notify(title=title, message=message, app_name="ControlSocket", app_icon=icon_path, timeout=5)
 
 async def main(ip, port, socketport):
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
