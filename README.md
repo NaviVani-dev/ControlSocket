@@ -17,7 +17,7 @@ Other solutions only support **Windows**, without any Linux support.
 
 ## Usage
 
-- Download the **pre-built executables** for **Linux** or **Windows** from the [Releases](#) page.
+- Download the **pre-built executables** for **Linux** or **Windows** from the [Releases](https://github.com/NaviVani-dev/ControlSocket/releases) page.
   - Windows users need to install the [ViGEmBus driver](https://github.com/nefarius/ViGEmBus)
   - Linux users, please follow [this guide](https://github.com/yannbouteiller/vgamepad/blob/main/readme/linux.md) if your controllers doesnt work properly.
 
