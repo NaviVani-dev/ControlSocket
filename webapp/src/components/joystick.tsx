@@ -14,7 +14,7 @@ export default function JoystickC({
   if (!joystick) return;
 
   const handleMove = (m: IJoystickUpdateEvent) => {
-    sendData({ input: joystick, value: [m.x || 0, (m.y || 0) * -1] });
+    sendData({ input: joystick, value: [m.x || 0, m.y || 0] });
   };
 
   const handleStop = () => {

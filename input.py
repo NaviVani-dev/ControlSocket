@@ -1,4 +1,5 @@
 import vgamepad as vg
+import sys
 
 xbox_buttons = {
   "a": vg.XUSB_BUTTON.XUSB_GAMEPAD_A,
@@ -114,5 +115,8 @@ class Gamepad:
     elif input == joystick_index[0]:
       self.gamepad.left_joystick_float(value[0], value[1])
     elif input == joystick_index[1]:
-      self.gamepad.right_joystick_float(value[0], value[1])
+      if sys.platform == "win32":
+        self.gamepad.right_joystick_float(value[0], value[1])
+      else:
+        self.gamepad.right_joystick_float(value[0], -value[1])
     self.gamepad.update()

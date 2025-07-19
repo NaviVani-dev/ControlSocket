@@ -5,11 +5,15 @@ import socket
 import argparse
 import qrcode
 import os
+import sys
 from aiohttp import web
 from input import Gamepad
 from plyer import notification
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+if hasattr(sys, '_MEIPASS'):
+    BASE_DIR = sys._MEIPASS
+else:
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 async def socket_handler(websocket):
     try:
@@ -53,7 +57,8 @@ async def socket_handler(websocket):
         )
 
 async def http_handler(request):
-    return web.FileResponse("./app/index.html")
+    index_html = os.path.join(BASE_DIR, "app", "index.html")
+    return web.FileResponse(index_html)
 
 async def miniapi_handler(request):
     data = {"port": request.app["socketport"], "ip": request.app["host_ip"]}
@@ -87,10 +92,12 @@ async def main(ip, port, socketport):
     runner = web.AppRunner(app)
     await runner.setup()
     http_site = web.TCPSite(runner, ip, port)
+    await http_site.start()
     print(f"App: http://{host_ip}:{port}")
+    print("\nYou can connect your phone using the QR code below:\n")
     print_qr(f"http://{host_ip}:{port}")
 
-    await asyncio.gather(http_site.start(), asyncio.Future())
+    await asyncio.Future()
 
 
 if __name__ == "__main__":
